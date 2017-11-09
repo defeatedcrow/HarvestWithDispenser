@@ -5,7 +5,7 @@ The Mod for Minecraft 1.7.10-1.12.1
 Please visit my new Wiki: http://defeatedcrow.jp/modwiki/Mainpage
 
 ## Introduction
-- This is a mod for Minecraft(JE). This mod removes the lava lake and lava flow in the forest to prevent forest fires. I HATE FOREST FIRES.
+- This is a mod for Minecraft(JE).
 
 ## Current operating environment:
 - Minecraft 1.7.10/1.10.2/1.12.1 
