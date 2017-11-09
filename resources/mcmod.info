@@ -1,0 +1,20 @@
+[
+  {
+    "description":"",
+    "parent":"",
+    "logoFile":"",
+    "credits":"defeatedcrow",
+    "dependencies":[],
+    "modid":"dcs_dispenser",
+    "mcversion":"1.7.10",
+    "screenshots":[],
+    "authorList":[
+      "defeatedcrow"
+    ],
+    "name":"HarvestWithDispenser",
+    "url":"http://defeatedcrow.jp/modwiki/Mainpage",
+    "updateUrl":"",
+    "version":"1.7.10_1.0.0",
+    "requiredMods":[]
+  }
+]
