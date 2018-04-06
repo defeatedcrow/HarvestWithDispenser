@@ -15,7 +15,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityDispenser;
@@ -39,7 +41,7 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 	@Override
 	@Nonnull
 	public ItemStack dispenseStack(@Nonnull IBlockSource source, @Nonnull ItemStack stack) {
-		if (HaCPlugin.isScythe(stack)) {
+		if (DispenserHervestDC.loadedHaC && HaCPlugin.isScythe(stack)) {
 			int r = HaCPlugin.getScytheTier(stack);
 			return harvestCrop(source, stack, r);
 		} else if (RegisterShearsJson.INSTANCE.getRange(stack) > 0) {
@@ -59,6 +61,8 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 		EnumFacing face = source.getBlockState().getValue(BlockDispenser.FACING);
 		BlockPos pos = source.getBlockPos();
 		int range = r;
+		int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
+
 		if (range > 0) {
 			boolean success = false;
 			IItemHandler inv = null;
@@ -83,14 +87,15 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 
 					List<ItemStack> list = new ArrayList<ItemStack>();
 
-					if (HaCPlugin.isHarvestableCrop(s1) && !HaCPlugin.getHarvest(s1).isEmpty()) {
-						list.addAll(HaCPlugin.getHarvest(s1));
+					if (DispenserHervestDC.loadedHaC && HaCPlugin.isHarvestableCrop(s1)
+							&& !HaCPlugin.getHarvest(s1, fortune).isEmpty()) {
+						list.addAll(HaCPlugin.getHarvest(s1, fortune));
 						world.setBlockState(p1, HaCPlugin.setGroundState(s1));
 					} else if (s1.getBlock() instanceof BlockCrops) {
 						BlockCrops crop = (BlockCrops) s1.getBlock();
 						if (crop.isMaxAge(s1)) {
 							List<ItemStack> l1 = new ArrayList<ItemStack>();
-							l1 = crop.getDrops(world, p1, s1, 0);
+							l1 = crop.getDrops(world, p1, s1, fortune);
 
 							if (!l1.isEmpty()) {
 								list.addAll(l1);
@@ -99,13 +104,13 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 						}
 					} else if (s1.getBlock() instanceof BlockCactus || s1.getBlock() instanceof BlockReed
 							|| s1.getMaterial() == Material.GOURD) {
-						list.add(new ItemStack(s1.getBlock().getItemDropped(s2, world.rand, 0), 1, 0));
+						list.add(new ItemStack(s1.getBlock().getItemDropped(s2, world.rand, fortune), 1, 0));
 						world.setBlockToAir(p1);
 					} else if (!(s1.getBlock() instanceof BlockStem) && s1.getBlock() instanceof IGrowable) {
 						IGrowable crop = (IGrowable) s1.getBlock();
-						if (!crop.canUseBonemeal(world, world.rand, p1, s1)) {
+						if (!crop.canGrow(world, p1, s1, false)) {
 							List<ItemStack> l1 = new ArrayList<ItemStack>();
-							l1 = s1.getBlock().getDrops(world, p1, s1, 0);
+							l1 = s1.getBlock().getDrops(world, p1, s1, fortune);
 
 							if (!l1.isEmpty()) {
 								list.addAll(l1);
@@ -114,14 +119,15 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 						}
 					}
 
-					if (HaCPlugin.isHarvestableCrop(s2) && !HaCPlugin.getHarvest(s2).isEmpty()) {
-						list.addAll(HaCPlugin.getHarvest(s2));
+					if (DispenserHervestDC.loadedHaC && HaCPlugin.isHarvestableCrop(s2)
+							&& !HaCPlugin.getHarvest(s2, fortune).isEmpty()) {
+						list.addAll(HaCPlugin.getHarvest(s2, fortune));
 						world.setBlockState(p2, HaCPlugin.setGroundState(s2));
 					} else if (s2.getBlock() instanceof BlockCrops) {
 						BlockCrops crop = (BlockCrops) s2.getBlock();
 						if (crop.isMaxAge(s2)) {
 							List<ItemStack> l1 = new ArrayList<ItemStack>();
-							l1 = crop.getDrops(world, p2, s2, 0);
+							l1 = crop.getDrops(world, p2, s2, fortune);
 
 							if (!l1.isEmpty()) {
 								list.addAll(l1);
@@ -130,13 +136,13 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 						}
 					} else if (s2.getBlock() instanceof BlockCactus || s2.getBlock() instanceof BlockReed
 							|| s2.getMaterial() == Material.GOURD) {
-						list.add(new ItemStack(s2.getBlock().getItemDropped(s2, world.rand, 0), 1, 0));
+						list.add(new ItemStack(s2.getBlock().getItemDropped(s2, world.rand, fortune), 1, 0));
 						world.setBlockToAir(p2);
 					} else if (!(s2.getBlock() instanceof BlockStem) && s2.getBlock() instanceof IGrowable) {
 						IGrowable crop = (IGrowable) s2.getBlock();
-						if (!crop.canUseBonemeal(world, world.rand, p2, s2)) {
+						if (!crop.canGrow(world, p2, s2, false)) {
 							List<ItemStack> l1 = new ArrayList<ItemStack>();
-							l1 = s2.getBlock().getDrops(world, p2, s2, 0);
+							l1 = s2.getBlock().getDrops(world, p2, s2, fortune);
 
 							if (!l1.isEmpty()) {
 								list.addAll(l1);

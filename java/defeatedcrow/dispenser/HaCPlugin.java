@@ -3,10 +3,8 @@ package defeatedcrow.dispenser;
 import java.util.ArrayList;
 import java.util.List;
 
-import defeatedcrow.hac.api.blockstate.DCState;
 import defeatedcrow.hac.api.cultivate.GrowingStage;
 import defeatedcrow.hac.api.cultivate.IClimateCrop;
-import defeatedcrow.hac.core.base.ClimateDoubleCropBase;
 import defeatedcrow.hac.main.item.tool.ItemScytheDC;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.state.IBlockState;
@@ -16,14 +14,13 @@ import net.minecraft.util.ResourceLocation;
 
 public class HaCPlugin {
 
-	public static boolean loadedHaC = false;
-
 	public static Item scytheBrass;
 	public static Item scytheSteel;
 	public static Item scytheChal;
+	public static Item scytheAlmandine;
 
 	public static void init() {
-		if (loadedHaC) {
+		if (DispenserHervestDC.loadedHaC) {
 			scytheBrass = Item.REGISTRY.getObject(new ResourceLocation("dcs_climate:dcs_scythe_brass"));
 			if (scytheBrass != null) {
 				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(scytheBrass, DispenseShears.getInstance());
@@ -42,13 +39,19 @@ public class HaCPlugin {
 				DispenserHervestDC.LOGGER
 						.info("register item as shears: " + scytheChal.getRegistryName().toString() + " : range " + 5);
 			}
+			scytheAlmandine = Item.REGISTRY.getObject(new ResourceLocation("dcs_climate:dcs_scythe_garnet"));
+			if (scytheAlmandine != null) {
+				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(scytheAlmandine, DispenseShears.getInstance());
+				DispenserHervestDC.LOGGER.info(
+						"register item as shears: " + scytheAlmandine.getRegistryName().toString() + " : range " + 4);
+			}
 		}
 	}
 
 	/* scythe */
 
 	public static boolean isScythe(ItemStack item) {
-		if (!loadedHaC || item == null || item.getItem() == null) {
+		if (!DispenserHervestDC.loadedHaC || item == null || item.getItem() == null) {
 			return false;
 		} else {
 			return item.getItem() instanceof ItemScytheDC;
@@ -67,7 +70,7 @@ public class HaCPlugin {
 	/* crop */
 
 	public static boolean isHarvestableCrop(IBlockState state) {
-		if (!loadedHaC || state == null || !(state.getBlock() instanceof IClimateCrop)) {
+		if (!DispenserHervestDC.loadedHaC || state == null || !(state.getBlock() instanceof IClimateCrop)) {
 			return false;
 		} else {
 			IClimateCrop crop = (IClimateCrop) state.getBlock();
@@ -78,22 +81,22 @@ public class HaCPlugin {
 		return false;
 	}
 
-	public static List<ItemStack> getHarvest(IBlockState state) {
+	public static List<ItemStack> getHarvest(IBlockState state, int fortune) {
 		List<ItemStack> ret = new ArrayList<ItemStack>();
 		if (!isHarvestableCrop(state)) {
 			return ret;
 		} else {
 			IClimateCrop crop = (IClimateCrop) state.getBlock();
-			ret.addAll(crop.getCropItems(state, 0));
+			ret.addAll(crop.getCropItems(state, fortune));
 			return ret;
 		}
 	}
 
 	public static IBlockState setGroundState(IBlockState state) {
-		if (state.getBlock() instanceof ClimateDoubleCropBase) {
-			return state.withProperty(DCState.STAGE8, 4);
-		} else {
-			return state.withProperty(DCState.STAGE4, 0);
+		if (state.getBlock() instanceof IClimateCrop) {
+			IBlockState set = ((IClimateCrop) state.getBlock()).setGroundState(state);
+			return set;
 		}
+		return state;
 	}
 }

@@ -22,7 +22,7 @@ public class DispenserHervestDC {
 	public static final String MOD_NAME = "HarvestWithDispenser";
 	public static final int MOD_MEJOR = 1;
 	public static final int MOD_MINOR = 0;
-	public static final int MOD_BUILD = 0;
+	public static final int MOD_BUILD = 1;
 	public static final String MOD_DEPENDENCIES = "after:dcs_climate";
 	public static final String MOD_ACCEPTED_MC_VERSIONS = "[1.10,1.11.2]";
 	public static final String PACKAGE_BASE = "dcs";
@@ -33,10 +33,12 @@ public class DispenserHervestDC {
 
 	public static final Logger LOGGER = LogManager.getLogger(PACKAGE_ID);
 
+	public static boolean loadedHaC = false;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		if (Loader.isModLoaded("dcs_climate")) {
-			HaCPlugin.loadedHaC = true;
+			loadedHaC = true;
 		}
 		RegisterShearsJson.INSTANCE.setDir(event.getModConfigurationDirectory());
 		RegisterShearsJson.INSTANCE.pre();
@@ -44,7 +46,8 @@ public class DispenserHervestDC {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		HaCPlugin.init();
+		if (loadedHaC)
+			HaCPlugin.init();
 		RegisterShearsJson.INSTANCE.registerMaterial(Items.SHEARS, 2);
 		for (Item item : RegisterShearsJson.INSTANCE.rangeMap.keySet()) {
 			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, DispenseShears.getInstance());
