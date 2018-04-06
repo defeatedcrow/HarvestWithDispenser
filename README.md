@@ -1,5 +1,5 @@
 ﻿# HarvestWithDispenser
-The Mod for Minecraft 1.7.10-1.12.1
+The Mod for Minecraft 1.7.10-1.12.2
 
 ## Project Site
 Please visit my new Wiki: http://defeatedcrow.jp/modwiki/Mainpage
@@ -8,8 +8,8 @@ Please visit my new Wiki: http://defeatedcrow.jp/modwiki/Mainpage
 - This is a mod for Minecraft(JE).
 
 ## Current operating environment:
-- Minecraft 1.7.10/1.10.2/1.12.1 
-- MinecraftForge 1588+/2185+/2478+
+- Minecraft 1.7.10/1.10.2/1.12.2 
+- MinecraftForge 1588+/2316+/2555+
 - Perhaps this may work with a different version. (I can not guarantee that, sorry.)
    
 ## Licenses
