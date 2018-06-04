@@ -13,9 +13,23 @@ Please visit my new Wiki: http://defeatedcrow.jp/modwiki/Mainpage
 - Perhaps this may work with a different version. (I can not guarantee that, sorry.)
    
 ## Licenses
-- Code：MMPL-1.0  (full text is included as License.txt)  
-- Resource：CC-BY-NC
-- About the secondary users<br> - Paid use of these mods are prohibited. 権利者であるdefeatedcrowを除き、一切の営利目的での利用を禁止します。<br> - You can include these mods to your ModPack. 利用者は当ModをModPackに同梱できます。<br> - You can distribute these mods for your server user. サーバー管理者はサーバー利用者に対して当Modを配布することが出来ます。<br>
+このmodは以下のライセンスの元で公開されます。 <br>
+This mod is distributed under the following license:
+### Code: All Rights Reserved
+#### Permissions
+- ソースコードを改変したり、あなたのmodプロジェクトに利用することができます。<br>You can fork, modify, or use the code in your project.
+- このmodの非改変パッケージをmodpackに同梱したり、マルチプレイサーバー内で再配布することができます。<br>You can redistribute this mod's unmodified package to modpack or multiplayer server.
+
+#### Conditions
+- 著作権者の表示 Copyright notice
+- 商用利用禁止 Commercial use prohibition
+
+#### Limitations
+- このmodは「現状のまま」提供され、一切の動作を保証しません。<br>This mod is provided "as is" without warranty of any kind.
+- 作者および著作権者は、いかなる場合でも、このmodの使用その他によって生じる責任を負いません。<br>In any case, the author or copyright holder is not responsible for any claims, damages or other liabilities arising out of this mod or its use.
+
+### Assets: CC-BY-NC-SA 4.0 <br>
+ https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
 <br>
 (c) defeatedcrow 2017
