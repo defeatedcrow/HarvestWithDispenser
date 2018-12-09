@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +21,7 @@ public class DispenserHervestDC {
 	public static final String MOD_NAME = "HarvestWithDispenser";
 	public static final int MOD_MEJOR = 1;
 	public static final int MOD_MINOR = 0;
-	public static final int MOD_BUILD = 1;
+	public static final int MOD_BUILD = 2;
 	public static final String MOD_DEPENDENCIES = "after:dcs_climate";
 	public static final String MOD_ACCEPTED_MC_VERSIONS = "[1.10,1.11.2]";
 	public static final String PACKAGE_BASE = "dcs";
@@ -48,15 +47,15 @@ public class DispenserHervestDC {
 	public void init(FMLInitializationEvent event) {
 		if (loadedHaC)
 			HaCPlugin.init();
-		RegisterShearsJson.INSTANCE.registerMaterial(Items.SHEARS, 2);
-		for (Item item : RegisterShearsJson.INSTANCE.rangeMap.keySet()) {
-			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, DispenseShears.getInstance());
-		}
+
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		RegisterShearsJson.INSTANCE.post();
+		for (Item item : RegisterShearsJson.INSTANCE.rangeMap.keySet()) {
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, DispenseShears.getInstance());
+		}
 	}
 
 }

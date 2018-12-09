@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -123,7 +124,12 @@ public class RegisterShearsJson {
 			try {
 				if (!dir.exists() && !dir.createNewFile()) {
 					return;
+				} else if (!jsonMap.isEmpty()) {
+					DispenserHervestDC.LOGGER.info("item resistant data json is already exists.");
+					return;
 				}
+
+				RegisterShearsJson.INSTANCE.registerMaterial(Items.SHEARS, 2);
 
 				if (dir.canRead()) {
 					FileInputStream fis = new FileInputStream(dir.getPath());
