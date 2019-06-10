@@ -88,10 +88,17 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 
 					List<ItemStack> list = new ArrayList<ItemStack>();
 
-					if (DispenserHervestDC.loadedHaC && HaCPlugin.isHarvestableCrop(s1)
-							&& !HaCPlugin.getHarvest(s1, fortune).isEmpty()) {
-						list.addAll(HaCPlugin.getHarvest(s1, fortune));
-						world.setBlockState(p1, HaCPlugin.setGroundState(s1));
+					if (DispenserHervestDC.loadedHaC && HaCPlugin.isHaCCrop(s1)) {
+						if (HaCPlugin.isHarvestableCrop(s1) && !HaCPlugin.getHarvest(s1, fortune).isEmpty()) {
+							list.addAll(HaCPlugin.getHarvest(s1, fortune));
+							world.setBlockState(p1, HaCPlugin.setGroundState(s1));
+						}
+					} else if (DispenserHervestDC.loadedAgri && AgriPlugin.isAgriCrop(world, p1)) {
+						if (AgriPlugin.isHarvestableCrop(world, p1)
+								&& !AgriPlugin.getHarvest(world, p1, fortune).isEmpty()) {
+							list.addAll(AgriPlugin.getHarvest(world, p1, fortune));
+							AgriPlugin.setGroundState(world, p1);
+						}
 					} else if (s1.getBlock() instanceof BlockCrops) {
 						BlockCrops crop = (BlockCrops) s1.getBlock();
 						if (crop.isMaxAge(s1)) {
@@ -105,7 +112,7 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 						}
 					} else if (s1.getBlock() instanceof BlockCactus || s1.getBlock() instanceof BlockReed
 							|| s1.getMaterial() == Material.GOURD) {
-						list.add(new ItemStack(s1.getBlock().getItemDropped(s2, world.rand, fortune), 1, 0));
+						list.add(new ItemStack(s1.getBlock().getItemDropped(s1, world.rand, fortune), 1, 0));
 						world.setBlockToAir(p1);
 					} else if (!(s1.getBlock() instanceof BlockStem) && s1.getBlock() instanceof IGrowable) {
 						IGrowable crop = (IGrowable) s1.getBlock();
@@ -120,10 +127,17 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 						}
 					}
 
-					if (DispenserHervestDC.loadedHaC && HaCPlugin.isHarvestableCrop(s2)
-							&& !HaCPlugin.getHarvest(s2, fortune).isEmpty()) {
-						list.addAll(HaCPlugin.getHarvest(s2, fortune));
-						world.setBlockState(p2, HaCPlugin.setGroundState(s2));
+					if (DispenserHervestDC.loadedHaC && HaCPlugin.isHaCCrop(s2)) {
+						if (HaCPlugin.isHarvestableCrop(s2) && !HaCPlugin.getHarvest(s2, fortune).isEmpty()) {
+							list.addAll(HaCPlugin.getHarvest(s2, fortune));
+							world.setBlockState(p2, HaCPlugin.setGroundState(s2));
+						}
+					} else if (DispenserHervestDC.loadedAgri && AgriPlugin.isAgriCrop(world, p2)) {
+						if (AgriPlugin.isHarvestableCrop(world, p2)
+								&& !AgriPlugin.getHarvest(world, p2, fortune).isEmpty()) {
+							list.addAll(AgriPlugin.getHarvest(world, p2, fortune));
+							AgriPlugin.setGroundState(world, p2);
+						}
 					} else if (s2.getBlock() instanceof BlockCrops) {
 						BlockCrops crop = (BlockCrops) s2.getBlock();
 						if (crop.isMaxAge(s2)) {

@@ -3,7 +3,6 @@ package defeatedcrow.dispenser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.zilkoniss.bettershears.init.ItemsMod;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Loader;
@@ -22,7 +21,7 @@ public class DispenserHervestDC {
 	public static final String MOD_NAME = "HarvestWithDispenser";
 	public static final int MOD_MEJOR = 1;
 	public static final int MOD_MINOR = 0;
-	public static final int MOD_BUILD = 3;
+	public static final int MOD_BUILD = 5;
 	public static final String MOD_DEPENDENCIES = "after:dcs_climate";
 	public static final String MOD_ACCEPTED_MC_VERSIONS = "[1.12,1.12.2]";
 	public static final String PACKAGE_BASE = "dcs";
@@ -34,12 +33,17 @@ public class DispenserHervestDC {
 	public static final Logger LOGGER = LogManager.getLogger(PACKAGE_ID);
 
 	public static boolean loadedHaC = false;
+	public static boolean loadedAgri = false;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		if (Loader.isModLoaded("dcs_climate")) {
 			loadedHaC = true;
 			DispenserHervestDC.LOGGER.info("loaded HaC plugin");
+		}
+		if (Loader.isModLoaded("agricraft")) {
+			loadedAgri = true;
+			DispenserHervestDC.LOGGER.info("loaded AgriCraft plugin");
 		}
 		RegisterShearsJson.INSTANCE.setDir(event.getModConfigurationDirectory());
 

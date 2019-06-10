@@ -18,6 +18,8 @@ public class HaCPlugin {
 	public static Item scytheSteel;
 	public static Item scytheChal;
 	public static Item scytheAlmandine;
+	public static Item scytheStone;
+	public static Item scytheToolSteel;
 
 	public static void init() {
 		if (DispenserHervestDC.loadedHaC) {
@@ -45,6 +47,18 @@ public class HaCPlugin {
 				DispenserHervestDC.LOGGER.info(
 						"register item as shears: " + scytheAlmandine.getRegistryName().toString() + " : range " + 4);
 			}
+			scytheStone = Item.REGISTRY.getObject(new ResourceLocation("dcs_climate:dcs_scythe_stone"));
+			if (scytheStone != null) {
+				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(scytheStone, DispenseShears.getInstance());
+				DispenserHervestDC.LOGGER
+						.info("register item as shears: " + scytheStone.getRegistryName().toString() + " : range " + 2);
+			}
+			scytheToolSteel = Item.REGISTRY.getObject(new ResourceLocation("dcs_climate:dcs_scythe_toolsteel"));
+			if (scytheToolSteel != null) {
+				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(scytheToolSteel, DispenseShears.getInstance());
+				DispenserHervestDC.LOGGER.info(
+						"register item as shears: " + scytheToolSteel.getRegistryName().toString() + " : range " + 6);
+			}
 		}
 	}
 
@@ -68,6 +82,13 @@ public class HaCPlugin {
 	}
 
 	/* crop */
+
+	public static boolean isHaCCrop(IBlockState state) {
+		if (DispenserHervestDC.loadedHaC && state != null && (state.getBlock() instanceof IClimateCrop)) {
+			return true;
+		}
+		return false;
+	}
 
 	public static boolean isHarvestableCrop(IBlockState state) {
 		if (!DispenserHervestDC.loadedHaC || state == null || !(state.getBlock() instanceof IClimateCrop)) {
