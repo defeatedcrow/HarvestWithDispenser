@@ -1,0 +1,136 @@
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
+
+repositories {
+  maven {
+    // location of the maven that hosts JEI files
+    name = "Progwml6 maven"
+    url = "https://dvs1.progwml6.com/files/maven/"
+  }
+  maven {url "http://tehnut.info/maven"}
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+// apply plugin: 'maven-publish'
+
+version = 'B2.0.0'
+group = 'com.defeatedcrow.dcs_dispenser'
+archivesBaseName = 'HarvestWithDispenser'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+ext.configFile = file "build.properties"
+
+minecraft {
+
+    mappings channel: 'snapshot', version: '20190719-1.14.3'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
+        }
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.15.2-31.1.0'
+
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
+
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+}
+
+def commonManifest = {
+    attributes([
+            "Specification-Title": "HarvestWithDispenser",
+            "Specification-Vendor": "defeatedcrow",
+            "Specification-Version": "${minecraft_version}_${mod_version}",
+            "Implementation-Title": "HarvestWithDispenser",
+            "Implementation-Version": "B2.0.0",
+            "Implementation-Vendor" :"defeatedcrow",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+}
+
+jar {
+    exclude '**/Thumbs.db'
+}
+
+jar {
+    manifest commonManifest
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+    manifest commonManifest
+}
+
+task srcJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+    manifest commonManifest
+}
+
+tasks.withType(Jar) {
+    compileJava.options.encoding = 'UTF-8'
+}
+
+tasks.withType(Jar) {
+    compileTestJava.options.encoding = 'UTF-8'
+}
+
+def reobfFile = file("$buildDir/reobfJar/output.jar")
+def reobfArtifact = artifacts.add('default', reobfFile) {
+    type 'jar'
+    builtBy 'reobfJar'
+}
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            artifact reobfArtifact
+//       }
+//    }
+//    repositories {
+//        maven {
+//            url "file:///${project.projectDir}/mcmodsrepo"
+//        }
+//    }
+//}
+
+
+//task signJar<< {
+//    ant.signjar(
+//        jar:jar.archivePath,
+//        alias:"${dcs_keyalias}",
+//        keystore:"${dcs_keystore}",
+//        storepass:"${dcs_keypass}",
+//        sigalg:"SHA256withECDSA",
+//        digestalg:"SHA-256",
+//        tsaurl:"http://timestamp.digicert.com"
+//    )
+//}
+//signJar.dependsOn reobfJar
+//build dependsOn signJar

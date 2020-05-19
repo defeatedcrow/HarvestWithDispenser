@@ -1,0 +1,28 @@
+
+modLoader="javafml"
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/defeatedcrow/HarvestWithDispenser/issues/"
+
+[[mods]]
+modId="dcs_dispenser"
+version="B2.0.0"
+displayName="HarvestWithDispenser"
+displayURL="https://defeatedcrow.jp/modwiki/HarvestWithDispenser/"
+logoFile="harvest_with_dispenser_200.png"
+credits="defeatedcrow"
+authors="defeatedcrow"
+description=""
+
+[[dependencies.dcs_dispenser]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31,)"
+    ordering="NONE"
+    side="SERVER"
+
+[[dependencies.dcs_dispenser]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2]"
+    ordering="NONE"
+    side="SERVER"

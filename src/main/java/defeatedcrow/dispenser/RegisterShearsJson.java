@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,11 +16,13 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-import net.minecraft.init.Items;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class RegisterShearsJson {
 
@@ -46,12 +49,14 @@ public class RegisterShearsJson {
 			return;
 		if (!rangeMap.containsKey(item)) {
 			rangeMap.put(item, r);
-			DispenserHervestDC.LOGGER
-					.info("register item as shears: " + item.getRegistryName().toString() + " : range " + r);
+			DispenserHarvestDC.LOGGER.info("register item as shears: " + item.getRegistryName()
+					.toString() + " : range " + r);
 			String mapName = item.getRegistryName().toString();
 			Map<String, Integer> map = Maps.newHashMap();
 			map.put("range", r);
 			intMap.put(mapName, map);
+
+			DispenserBlock.registerDispenseBehavior(item.asItem(), new DispenseShears());
 		}
 	}
 
@@ -80,14 +85,14 @@ public class RegisterShearsJson {
 					}
 
 				} else {
-					DispenserHervestDC.LOGGER.info("fail to register target item from json: " + name);
+					DispenserHarvestDC.LOGGER.info("fail to register target item from json: " + name);
 					return;
 				}
 			}
 
-			Item item = Item.REGISTRY.getObject(new ResourceLocation(modid, itemName));
+			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(modid, itemName));
 			if (item != null) {
-				DispenserHervestDC.LOGGER.info("register target item from json: " + modid + ":" + itemName);
+				DispenserHarvestDC.LOGGER.info("register target item from json: " + modid + ":" + itemName);
 				INSTANCE.registerMaterial(item, r);
 			}
 		}
@@ -116,7 +121,7 @@ public class RegisterShearsJson {
 				}
 			}
 		} else {
-			DispenserHervestDC.LOGGER.info("no shears json data.");
+			DispenserHarvestDC.LOGGER.info("no shears json data.");
 		}
 	}
 
@@ -151,7 +156,6 @@ public class RegisterShearsJson {
 		startMap();
 	}
 
-	// 生成は初回のみ
 	public static void post() {
 
 		if (dir != null) {
@@ -159,7 +163,7 @@ public class RegisterShearsJson {
 				if (!dir.exists() && !dir.createNewFile()) {
 					return;
 				} else if (!jsonMap.isEmpty()) {
-					DispenserHervestDC.LOGGER.info("item resistant data json is already exists.");
+					DispenserHarvestDC.LOGGER.info("item resistant data json is already exists.");
 					return;
 				}
 
@@ -183,8 +187,8 @@ public class RegisterShearsJson {
 		}
 	}
 
-	public static void setDir(File file) {
-		dir = new File(file, "defeatedcrow/dispenser/shears_item.json");
+	public static void setDir(Path path) {
+		dir = new File(path.toFile(), "harvest_with_dispenser.json");
 		if (dir.getParentFile() != null) {
 			dir.getParentFile().mkdirs();
 		}

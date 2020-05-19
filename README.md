@@ -1,15 +1,16 @@
 ﻿# HarvestWithDispenser
-The Mod for Minecraft 1.7.10-1.12.2
+The Mod for Minecraft 1.7.10-1.15.2
 
 ## Project Site
 Please visit my new Wiki: http://defeatedcrow.jp/modwiki/Mainpage
 
 ## Introduction
 - This is a mod for Minecraft(JE).
+- In the case of multiplay, this mod work only on the server-side. (1.15.2 ver only)
 
 ## Current operating environment:
-- Minecraft 1.7.10/1.10.2/1.12.2 
-- MinecraftForge 1588+/2316+/2555+
+- Minecraft 1.7.10/1.10.2/1.12.2/1.15.2 
+- MinecraftForge 1588+/2316+/2555+/31.1.0+
 - Perhaps this may work with a different version. (I can not guarantee that, sorry.)
    
 ## Licenses
