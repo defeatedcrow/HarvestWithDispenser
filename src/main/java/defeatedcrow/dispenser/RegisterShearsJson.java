@@ -71,7 +71,8 @@ public class RegisterShearsJson {
 	}
 
 	public void registerItemName(String name, int r) {
-		if (name != null) {
+		if (isValidKey(name)) {
+			name = name.toLowerCase();
 			String itemName = name;
 			String modid = "minecraft";
 			if (name.contains(":")) {
@@ -84,9 +85,6 @@ public class RegisterShearsJson {
 						itemName = n2[1];
 					}
 
-				} else {
-					DispenserHarvestDC.LOGGER.info("fail to register target item from json: " + name);
-					return;
 				}
 			}
 
@@ -96,6 +94,10 @@ public class RegisterShearsJson {
 				INSTANCE.registerMaterial(item, r);
 			}
 		}
+	}
+
+	public static boolean isValidKey(String key) {
+		return key != null && !key.contains(" ") && !key.contains(",") && !key.contains("(") && !key.contains(")");
 	}
 
 	/* json */
