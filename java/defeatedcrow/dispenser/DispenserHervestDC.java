@@ -1,5 +1,7 @@
 package defeatedcrow.dispenser;
 
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +14,8 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkCheckHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = DispenserHervestDC.MOD_ID, name = DispenserHervestDC.MOD_NAME, version = DispenserHervestDC.MOD_MEJOR + "."
 		+ DispenserHervestDC.MOD_MINOR + "."
@@ -21,7 +25,7 @@ public class DispenserHervestDC {
 	public static final String MOD_NAME = "HarvestWithDispenser";
 	public static final int MOD_MEJOR = 1;
 	public static final int MOD_MINOR = 0;
-	public static final int MOD_BUILD = 5;
+	public static final int MOD_BUILD = 6;
 	public static final String MOD_DEPENDENCIES = "after:dcs_climate";
 	public static final String MOD_ACCEPTED_MC_VERSIONS = "[1.12,1.12.2]";
 	public static final String PACKAGE_BASE = "dcs";
@@ -34,6 +38,11 @@ public class DispenserHervestDC {
 
 	public static boolean loadedHaC = false;
 	public static boolean loadedAgri = false;
+
+	@NetworkCheckHandler
+	public boolean netCheckHandler(Map<String, String> mods, Side side) {
+		return true;
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
