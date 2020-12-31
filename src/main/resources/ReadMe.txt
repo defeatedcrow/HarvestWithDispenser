@@ -1,22 +1,24 @@
-﻿#### Harvest With Dispenser for Minecraft 1.15.2 ####
+﻿#### Harvest With Dispenser for Minecraft 1.16.4 ####
 
 
 # 開発Ver&Mod
 
-・Minecraft1.15.2
-・MincraftForge 1.15.2-14.31.1.0+
+・Minecraft1.16.4
+・MincraftForge 1.16.4-14.35.1.4+
 
 
 # 導入方法
 
 MinecraftForgeを導入後、modsフォルダにjarファイルを入れてください。
-サーバーサイドのみの導入で動作します。
+サーバーサイドのみの導入で多分動作します。
 
 
 # 概要
 
 ディスペンサーにハサミを入れて起動すると、ディスペンサーの向いている方向の作物を刈り取ってくれるModです。
 使用するアイテムや刈り取り範囲はコンフィグファイルで編集できます。
+
+ついでに骨粉のバニラ挙動も弱すぎるので、範囲を5x5に拡大しました。
 
 
 # 使い方
@@ -54,6 +56,8 @@ MinecraftForgeを導入後、modsフォルダにjarファイルを入れてく�
 
 
 # 更新履歴
+
+○B3.0.0(beta) MC1.16.4に対応
 
 ○B2.0.0(beta) MC1.15.2に対応
 
