@@ -18,6 +18,7 @@ import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.StemBlock;
 import net.minecraft.block.SugarCaneBlock;
+import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IDispenseItemBehavior;
@@ -106,6 +107,17 @@ public class DispenseShears implements IDispenseItemBehavior {
 										.getTileEntity(p1));
 
 								if (!l1.isEmpty()) {
+									list.addAll(l1);
+									world.setBlockState(p1, crop.getDefaultState());
+								}
+							}
+						} else if (s1.getBlock() instanceof SweetBerryBushBlock) {
+							SweetBerryBushBlock crop = (SweetBerryBushBlock) s1.getBlock();
+							if (!crop.canGrow(world, p1, s1, false)) {
+								List<ItemStack> l1 = crop.getDrops(s1, (ServerWorld) world, p1, world
+										.getTileEntity(p1));
+
+								if (!crop.getItem(world, p1, s1).isEmpty()) {
 									list.addAll(l1);
 									world.setBlockState(p1, crop.getDefaultState());
 								}
