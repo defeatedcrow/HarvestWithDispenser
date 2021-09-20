@@ -5,12 +5,16 @@ import java.util.List;
 
 import defeatedcrow.hac.api.cultivate.GrowingStage;
 import defeatedcrow.hac.api.cultivate.IClimateCrop;
+import defeatedcrow.hac.food.FoodInit;
 import defeatedcrow.hac.main.item.tool.ItemScytheDC;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class HaCPlugin {
 
@@ -44,8 +48,8 @@ public class HaCPlugin {
 			scytheAlmandine = Item.REGISTRY.getObject(new ResourceLocation("dcs_climate:dcs_scythe_garnet"));
 			if (scytheAlmandine != null) {
 				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(scytheAlmandine, DispenseShears.getInstance());
-				DispenserHervestDC.LOGGER.info(
-						"register item as shears: " + scytheAlmandine.getRegistryName().toString() + " : range " + 4);
+				DispenserHervestDC.LOGGER.info("register item as shears: " + scytheAlmandine.getRegistryName()
+						.toString() + " : range " + 4);
 			}
 			scytheStone = Item.REGISTRY.getObject(new ResourceLocation("dcs_climate:dcs_scythe_stone"));
 			if (scytheStone != null) {
@@ -56,8 +60,8 @@ public class HaCPlugin {
 			scytheToolSteel = Item.REGISTRY.getObject(new ResourceLocation("dcs_climate:dcs_scythe_toolsteel"));
 			if (scytheToolSteel != null) {
 				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(scytheToolSteel, DispenseShears.getInstance());
-				DispenserHervestDC.LOGGER.info(
-						"register item as shears: " + scytheToolSteel.getRegistryName().toString() + " : range " + 6);
+				DispenserHervestDC.LOGGER.info("register item as shears: " + scytheToolSteel.getRegistryName()
+						.toString() + " : range " + 6);
 			}
 		}
 	}
@@ -90,6 +94,10 @@ public class HaCPlugin {
 		return false;
 	}
 
+	public static boolean isSeaweed(IBlockState state) {
+		return state.getBlock() == FoodInit.cropSeaweed;
+	}
+
 	public static boolean isHarvestableCrop(IBlockState state) {
 		if (!DispenserHervestDC.loadedHaC || state == null || !(state.getBlock() instanceof IClimateCrop)) {
 			return false;
@@ -119,5 +127,31 @@ public class HaCPlugin {
 			return set;
 		}
 		return state;
+	}
+
+	public static List<ItemStack> harvestSeaweed(World world, BlockPos pos, IBlockState state, int fortune) {
+		List<ItemStack> ret = new ArrayList<ItemStack>();
+		// 頂点の検索
+		BlockPos p2 = pos;
+		while (isSeaweed(world.getBlockState(p2)) && isSeaweed(world.getBlockState(p2.up())) && p2.getY() < 254) {
+			p2 = p2.up();
+		}
+
+		// 収穫
+		if (!isSeaweed(world.getBlockState(p2)) || !isSeaweed(world.getBlockState(p2.down()))) {
+			return ret;
+		}
+
+		int count = 0;
+		while (isSeaweed(world.getBlockState(p2)) && isSeaweed(world.getBlockState(p2.down())) && p2.getY() > 1) {
+			if (world.setBlockState(p2, Blocks.WATER.getDefaultState(), 2)) {
+				count++;
+			}
+			p2 = p2.down();
+		}
+		if (count > 0) {
+			ret.add(new ItemStack(FoodInit.seeds, count, 8));
+		}
+		return ret;
 	}
 }

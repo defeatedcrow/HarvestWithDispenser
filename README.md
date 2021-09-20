@@ -9,7 +9,7 @@ Please visit my new Wiki: http://defeatedcrow.jp/modwiki/Mainpage
 
 ## Current operating environment:
 - Minecraft 1.7.10/1.10.2/1.12.2 
-- MinecraftForge 1588+/2316+/2555+
+- MinecraftForge 1588+/2316+/2847+
 - Perhaps this may work with a different version. (I can not guarantee that, sorry.)
    
 ## Licenses

@@ -50,8 +50,8 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 			if (!harvestCrop(source, stack, r))
 				harvestWool(source, stack, r);
 			return stack;
-		} else if (RegisterShearsJson.INSTANCE.getRange(stack) > 0
-				&& harvestCrop(source, stack, RegisterShearsJson.INSTANCE.getRange(stack))) {
+		} else if (RegisterShearsJson.INSTANCE
+				.getRange(stack) > 0 && harvestCrop(source, stack, RegisterShearsJson.INSTANCE.getRange(stack))) {
 			return stack;
 		} else if (isShears(stack) && harvestWool(source, stack, 2)) {
 			return stack;
@@ -75,9 +75,8 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 			boolean success = false;
 			IItemHandler inv = null;
 			for (EnumFacing f : EnumFacing.VALUES) {
-				if (world.getTileEntity(pos.offset(f)) != null
-						&& !(world.getTileEntity(pos.offset(f)) instanceof TileEntityDispenser)
-						&& world.getTileEntity(pos.offset(f))
+				if (world.getTileEntity(pos.offset(f)) != null && !(world.getTileEntity(pos
+						.offset(f)) instanceof TileEntityDispenser) && world.getTileEntity(pos.offset(f))
 								.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, f.getOpposite())) {
 					inv = world.getTileEntity(pos.offset(f))
 							.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, f.getOpposite());
@@ -95,13 +94,16 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 						List<ItemStack> list = new ArrayList<ItemStack>();
 
 						if (DispenserHervestDC.loadedHaC && HaCPlugin.isHaCCrop(s2)) {
-							if (HaCPlugin.isHarvestableCrop(s2) && !HaCPlugin.getHarvest(s2, fortune).isEmpty()) {
+							if (HaCPlugin.isSeaweed(s2)) {
+								list.addAll(HaCPlugin.harvestSeaweed(world, p2, s2, fortune));
+							} else if (HaCPlugin.isHarvestableCrop(s2) && !HaCPlugin.getHarvest(s2, fortune)
+									.isEmpty()) {
 								list.addAll(HaCPlugin.getHarvest(s2, fortune));
 								world.setBlockState(p2, HaCPlugin.setGroundState(s2));
 							}
 						} else if (DispenserHervestDC.loadedAgri && AgriPlugin.isAgriCrop(world, p2)) {
-							if (AgriPlugin.isHarvestableCrop(world, p2)
-									&& !AgriPlugin.getHarvest(world, p2, fortune).isEmpty()) {
+							if (AgriPlugin.isHarvestableCrop(world, p2) && !AgriPlugin.getHarvest(world, p2, fortune)
+									.isEmpty()) {
 								list.addAll(AgriPlugin.getHarvest(world, p2, fortune));
 								AgriPlugin.setGroundState(world, p2);
 							}
@@ -192,9 +194,8 @@ public class DispenseShears extends BehaviorDefaultDispenseItem {
 			boolean success = false;
 			IItemHandler inv = null;
 			for (EnumFacing f : EnumFacing.VALUES) {
-				if (world.getTileEntity(pos.offset(f)) != null
-						&& !(world.getTileEntity(pos.offset(f)) instanceof TileEntityDispenser)
-						&& world.getTileEntity(pos.offset(f))
+				if (world.getTileEntity(pos.offset(f)) != null && !(world.getTileEntity(pos
+						.offset(f)) instanceof TileEntityDispenser) && world.getTileEntity(pos.offset(f))
 								.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, f.getOpposite())) {
 					inv = world.getTileEntity(pos.offset(f))
 							.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, f.getOpposite());
